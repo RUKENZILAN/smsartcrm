@@ -10,33 +10,44 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicCronProcessRulesRouteImport } from './routes/api/public/cron/process-rules'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCronProcessRulesRoute =
+  ApiPublicCronProcessRulesRouteImport.update({
+    id: '/api/public/cron/process-rules',
+    path: '/api/public/cron/process-rules',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/cron/process-rules': typeof ApiPublicCronProcessRulesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/cron/process-rules': typeof ApiPublicCronProcessRulesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/cron/process-rules': typeof ApiPublicCronProcessRulesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/public/cron/process-rules'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/public/cron/process-rules'
+  id: '__root__' | '/' | '/api/public/cron/process-rules'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicCronProcessRulesRoute: typeof ApiPublicCronProcessRulesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +59,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cron/process-rules': {
+      id: '/api/public/cron/process-rules'
+      path: '/api/public/cron/process-rules'
+      fullPath: '/api/public/cron/process-rules'
+      preLoaderRoute: typeof ApiPublicCronProcessRulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicCronProcessRulesRoute: ApiPublicCronProcessRulesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
