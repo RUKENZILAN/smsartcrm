@@ -14,16 +14,208 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contacts: {
+        Row: {
+          birthday: string | null
+          company: string | null
+          created_at: string
+          deal_value: number
+          email: string | null
+          id: string
+          last_contacted_at: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          status: Database["public"]["Enums"]["contact_status"]
+          tags: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          birthday?: string | null
+          company?: string | null
+          created_at?: string
+          deal_value?: number
+          email?: string | null
+          id?: string
+          last_contacted_at?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["contact_status"]
+          tags?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          birthday?: string | null
+          company?: string | null
+          created_at?: string
+          deal_value?: number
+          email?: string | null
+          id?: string
+          last_contacted_at?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["contact_status"]
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      outreach_logs: {
+        Row: {
+          channel: string
+          contact_id: string | null
+          created_at: string
+          detail: string | null
+          id: string
+          rule_id: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          contact_id?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          rule_id?: string | null
+          status: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          contact_id?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          rule_id?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outreach_logs_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outreach_logs_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "outreach_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      outreach_rules: {
+        Row: {
+          channels: string[]
+          conditions: Json
+          created_at: string
+          enabled: boolean
+          frequency_config: Json
+          frequency_type: string
+          id: string
+          last_run_at: string | null
+          message_body: string
+          message_subject: string | null
+          name: string
+          next_run_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channels?: string[]
+          conditions?: Json
+          created_at?: string
+          enabled?: boolean
+          frequency_config?: Json
+          frequency_type?: string
+          id?: string
+          last_run_at?: string | null
+          message_body?: string
+          message_subject?: string | null
+          name: string
+          next_run_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channels?: string[]
+          conditions?: Json
+          created_at?: string
+          enabled?: boolean
+          frequency_config?: Json
+          frequency_type?: string
+          id?: string
+          last_run_at?: string | null
+          message_body?: string
+          message_subject?: string | null
+          name?: string
+          next_run_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      contact_status: "lead" | "prospect" | "customer" | "lost"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +342,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      contact_status: ["lead", "prospect", "customer", "lost"],
+    },
   },
 } as const
