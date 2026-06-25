@@ -106,6 +106,12 @@ Rules are evaluated server-side every minute via a cron job. For each active rul
 
 If a channel’s API credentials are missing, the send is recorded as `skipped` with a helpful message — no crashes.
 
+## Live App
+
+Preview: [https://id-preview--c3a58c61-360e-4174-8a9b-126873fc391f.lovable.app](https://id-preview--c3a58c61-360e-4174-8a9b-126873fc391f.lovable.app)
+
+> Publish the project from the Lovable editor to get a permanent public URL.
+
 ## License
 
-MIT
+GPL-3.0
