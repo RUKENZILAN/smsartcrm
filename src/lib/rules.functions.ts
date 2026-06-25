@@ -75,11 +75,13 @@ export const upsertRule = createServerFn({ method: "POST" })
     if (data.id) {
       const { error } = await context.supabase
         .from("outreach_rules")
-        .update(payload)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .update(payload as any)
         .eq("id", data.id);
       if (error) throw new Error(error.message);
     } else {
-      const { error } = await context.supabase.from("outreach_rules").insert(payload);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await context.supabase.from("outreach_rules").insert(payload as any);
       if (error) throw new Error(error.message);
     }
     return { ok: true };
